@@ -7,7 +7,16 @@
         <dependent-module archiveName="easycode-kafkaClient-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-kafkaclient/easycode-kafkaclient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="easycode-search-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-search/easycode-search">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="easycode-redisClient-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-redisclient/easycode-redisclient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="easycode-common-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-common/easycode-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/easycode-controller/target/classes"/>
-        <property name="context-root" value="easycode-controller"/>
+        <property name="context-root" value="easyController"/>
     </wb-module>
 </project-modules>

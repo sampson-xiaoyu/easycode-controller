@@ -19,6 +19,14 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		<groupId>com.easycode</groupId>
 		<artifactId>easycode-kafkaClient</artifactId>
   	</dependency>
+  	<dependency>
+		<groupId>com.easycode</groupId>
+		<artifactId>easycode-search</artifactId>
+  	</dependency>
+  	<dependency>
+		<groupId>com.easycode</groupId>
+		<artifactId>easycode-redisClient</artifactId>
+  	</dependency>
   
   </dependencies>
   
