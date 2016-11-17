@@ -5,18 +5,24 @@ import javax.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import com.easycode.common.baseVO.BaseVO;
 import com.easycode.common.baseVO.Code;
-import com.easycode.message.kafka.template.ProducerTemplate;
+import com.easycode.message.kafka.message.Message;
+import com.easycode.message.kafka.message.manager.MessageManager;
+import com.easycode.message.model.UserMessage;
 
 @Aspect
 @Component
 public class UserLoginInterceptor {
-
-    @Resource(name = "producerTemplate")
-    private ProducerTemplate producerTemplate;
-
+	
+    @Resource(name = "messageManager")
+    private MessageManager messageManager;
+    @Value(value = "${message.topic.user.login}")
+    private String topic;
+    
 	@Around("@annotation(userLogin)")
 	 public Object afterUserLogin(final ProceedingJoinPoint pjp,UserLoginAnnotation userLogin) throws Throwable {
 		
@@ -24,7 +30,9 @@ public class UserLoginInterceptor {
 		 if(rs instanceof BaseVO){
 			 BaseVO result = (BaseVO)rs;
 			 if(Code.SUCCESS.text().equals(result.getCode())){
-				 producerTemplate.send("", "", "");
+				 
+				 Message message = new UserMessage();
+				 messageManager.sendUserMessage(topic, message);
 			 }
 		 }
 		 
