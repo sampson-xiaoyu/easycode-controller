@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.easycode.common.baseVO.BaseVO;
 import com.easycode.common.baseVO.Code;
-import com.easycode.message.kafka.message.Message;
 import com.easycode.message.kafka.message.manager.MessageManager;
 import com.easycode.message.model.UserMessage;
 
@@ -31,7 +30,10 @@ public class UserLoginInterceptor {
 			 BaseVO result = (BaseVO)rs;
 			 if(Code.SUCCESS.text().equals(result.getCode())){
 				 
-				 Message message = new UserMessage();
+				 UserMessage message = new UserMessage();
+				 message.setUserId(2L);
+				 message.setLoginTime(System.currentTimeMillis());
+				 message.setUserName("小鱼儿");
 				 messageManager.sendUserMessage(topic, message);
 			 }
 		 }
