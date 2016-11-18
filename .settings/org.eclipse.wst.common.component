@@ -10,10 +10,10 @@
         <dependent-module archiveName="easycode-common-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-common/easycode-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="easycode-base-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-base/easycode-base">
+        <dependent-module archiveName="easycode-search-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-search/easycode-search">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="easycode-search-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-search/easycode-search">
+        <dependent-module archiveName="easycode-base-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/easycode-base/easycode-base">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/easycode-controller/target/classes"/>
