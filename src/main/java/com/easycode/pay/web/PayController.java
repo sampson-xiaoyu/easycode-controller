@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,19 +26,20 @@ import org.xml.sax.SAXException;
 import com.alipay.util.AlipayNotify;
 import com.easycode.common.baseVO.BaseVO;
 import com.easycode.common.baseVO.Code;
+import com.easycode.pay.common.Signature;
 import com.easycode.pay.web.type.PayType;
 import com.easycode.payManager.PayManager;
-import com.wcpay.common.Signature;
 
 
 @Controller
 public class PayController {
 	
+	@Resource
 	private PayManager payManager;
 	
-	@RequestMapping(value = "/toPay", method = RequestMethod.POST)
+	@RequestMapping(value = "/toMobilePay", method = RequestMethod.POST)
     @ResponseBody
-	public BaseVO toPay(
+	public BaseVO toMobilePay(
 	        @RequestParam(value = "paymentNum", required = true) String paymentNum,
             @RequestParam(value = "payType", required = false,defaultValue = "ALI_PAY") String payType,
             @RequestParam(value = "deviceInfo", required = false) String deviceInfo){
@@ -48,7 +50,49 @@ public class PayController {
         if(PayType.ALI_PAY.getCode().equals(payType)) {
             String aliPayStr= null;
             try {
-                aliPayStr = payManager.toAliPay(paymentNum, "testAli", new BigDecimal("0.01"), new Date());
+                aliPayStr = payManager.toAliMobilePay(paymentNum, "testAli", new BigDecimal("0.01"), new Date());
+                resultData.setData(aliPayStr);
+            } catch (UnsupportedEncodingException e) {
+                throw new UnsupportedOperationException("签名验证失败");
+            }
+            return resultData;
+        }
+        /**
+         * 微信支付
+         */
+        if(PayType.WCHAT_PAY.getCode().equals(payType)){
+            Map<String,Object> wchatPayData= null;
+            try {
+                wchatPayData = payManager.toWChatPay("testWChat", paymentNum, 1, "", deviceInfo, new Date());
+            } catch (Exception e) {
+                throw new UnsupportedOperationException("签名验证失败");
+            }
+            resultData.setData(wchatPayData);
+            return resultData;
+        }
+        /**
+         * 支付方式验证失败
+         */
+        resultData.setMsg("支付方式有误");
+        resultData.setCode(Code.FAIL.name());
+        return resultData;
+
+    }
+	
+	@RequestMapping(value = "/toPcPay", method = RequestMethod.GET)
+    @ResponseBody
+	public BaseVO toPcPay(
+	        @RequestParam(value = "paymentNum", required = true) String paymentNum,
+            @RequestParam(value = "payType", required = false,defaultValue = "ALI_PAY") String payType,
+            @RequestParam(value = "deviceInfo", required = false) String deviceInfo){
+		BaseVO resultData= new BaseVO();
+        /**
+         * 支付宝支付
+         */
+        if(PayType.ALI_PAY.getCode().equals(payType)) {
+            String aliPayStr= null;
+            try {
+                aliPayStr = payManager.toAliPcPay(paymentNum, "testAli", new BigDecimal("0.01"), new Date());
                 resultData.setData(aliPayStr);
             } catch (UnsupportedEncodingException e) {
                 throw new UnsupportedOperationException("签名验证失败");
