@@ -1,7 +1,15 @@
 package com.easycode.entity;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.parsing.ImportDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.ImportAware;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.context.annotation.ImportSelector;
+import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,17 +20,9 @@ import java.lang.reflect.Field;
  * @date 19/3/25
  */
 @Component
-public class InitedEntity implements InitializingBean{
+public class InitedEntity implements InitializingBean, BeanFactoryAware, BeanClassLoaderAware, BeanNameAware, ApplicationContextAware, ImportAware, ImportBeanDefinitionRegistrar, ImportSelector{
 
     int age = 0;
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public InitedEntity(){
         System.out.println("InitedEntity generate");
@@ -44,44 +44,40 @@ public class InitedEntity implements InitializingBean{
         System.out.println("PostConstruct");
     }
 
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-
-        System.out.println("postProcessBeforeInitialization:"+beanName);
-        if(beanName.equals("initedEntity")){
-            System.out.println("postProcessBeforeInitialization");
-            try {
-                Field filed = bean.getClass().getField("age");
-                filed.set(bean, 1);
-            }catch(Exception e){
-
-            }
-            System.out.println(bean);
-        }
-        return bean;
-    }
-
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-
-        System.out.println("postProcessAfterInitialization:"+beanName);
-        if(beanName.equals("initedEntity")){
-
-            System.out.println("postProcessAfterInitialization:");
-            try {
-                Field filed = bean.getClass().getField("age");
-                filed.set(bean, 2);
-            }catch(Exception e){
-
-            }
-            System.out.println(bean);
-        }
-
-        return bean;
-    }
-
     @Override
     public String toString() {
         return "InitedEntity{" +
                 "age=" + age +
                 '}';
+    }
+
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("setBeanClassLoader"+classLoader.getClass()+":"+classLoader.getParent().getClass());
+    }
+
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        System.out.println("beanFactory:"+beanFactory);
+    }
+
+    public void setBeanName(String s) {
+        System.out.println(s);
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("setApplicationContext,applicationContext:"+applicationContext);
+    }
+
+    public void setImportMetadata(AnnotationMetadata annotationMetadata) {
+        System.out.println("setImportMetadata,annotationMetadata:"+annotationMetadata);
+    }
+
+    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
+        System.out.println("registerBeanDefinitions,annotationMetadata:"+annotationMetadata+"beanDefinitionRegistry:"+beanDefinitionRegistry);
+    }
+
+    public String[] selectImports(AnnotationMetadata annotationMetadata) {
+
+        System.out.println("selectImports:annotationMetadata:"+annotationMetadata);
+        return new String[0];
     }
 }
