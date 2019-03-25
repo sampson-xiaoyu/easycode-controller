@@ -9,16 +9,13 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<aop:aspectj-autoproxy />
-	<context:property-placeholder location="classpath:env/${env}.properties" />
-	<mvc:annotation-driven />
+	<!--<aop:aspectj-autoproxy /> -->
+	<!--<mvc:annotation-driven /> -->
 
-	<context:component-scan base-package="com.easycode" >
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan>
+	<context:component-scan base-package="com.easycode.*"/>
 
 
-	<bean id="jspViewResolver"
+	<!--<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass">
 			<value>org.springframework.web.servlet.view.JstlView</value>
@@ -26,5 +23,7 @@
 		<property name="order" value="1"></property>
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
-	</bean>
+	</bean> -->
+
+	<!--<bean id="initedEntity" class="com.easycode.entity.InitedEntity" init-method="initMethod"></bean>-->
 </beans>
