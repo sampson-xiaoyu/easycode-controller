@@ -6,6 +6,9 @@ import org.springframework.beans.factory.parsing.ImportDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
@@ -19,12 +22,13 @@ import java.lang.reflect.Field;
  * @author yuqi
  * @date 19/3/25
  */
-@Component
-public class InitedEntity implements InitializingBean, BeanFactoryAware, BeanClassLoaderAware, BeanNameAware, ApplicationContextAware, ImportAware, ImportBeanDefinitionRegistrar, ImportSelector{
+public class SpringEntity implements InitializingBean, BeanFactoryAware,
+        BeanClassLoaderAware, BeanNameAware, ApplicationContextAware, ImportAware, ApplicationEventPublisherAware,
+        ImportBeanDefinitionRegistrar, ImportSelector{
 
-    int age = 0;
+    String age;
 
-    public InitedEntity(){
+    public SpringEntity(){
         System.out.println("InitedEntity generate");
     }
 
@@ -79,5 +83,10 @@ public class InitedEntity implements InitializingBean, BeanFactoryAware, BeanCla
 
         System.out.println("selectImports:annotationMetadata:"+annotationMetadata);
         return new String[0];
+    }
+
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        System.out.println("发布事件"+applicationEventPublisher);
+        applicationEventPublisher.publishEvent(new MyApplicationEvent("你好"));
     }
 }

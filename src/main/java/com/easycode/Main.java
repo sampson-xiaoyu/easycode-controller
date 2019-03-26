@@ -1,5 +1,6 @@
 package com.easycode;
 
+import com.easycode.entity.SpringEntity;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -15,8 +16,10 @@ public class Main {
 
         ApplicationContext context = new FileSystemXmlApplicationContext(
                 "classpath:spring/bean.xml");
-        UserMessageConsumer a = (UserMessageConsumer) context.getBean("userMessageConsumer");
+        SpringEntity a = (SpringEntity) context.getBean("initedEntity");
         System.out.println(a);
+        SpringEntity a1 = (SpringEntity) context.getBean("springEntity");
+       System.out.println((a == a1)+":"+a+":"+a1);
 
     }
 

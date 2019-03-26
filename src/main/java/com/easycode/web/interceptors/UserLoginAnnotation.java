@@ -1,5 +1,12 @@
 package com.easycode.web.interceptors;
 
+import com.easycode.entity.AppConfig;
+import com.easycode.entity.SpringEntity;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +18,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Import(AppConfig.class)
+@Component
 public @interface UserLoginAnnotation {
 
 }
