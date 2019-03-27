@@ -12,33 +12,31 @@ public class UserMessageConsumer implements BeanPostProcessor {
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-        System.out.println("postProcessBeforeInitialization:"+beanName);
-        if(beanName.equals("initedEntity")){
+        if(beanName.equals("springEntity") || beanName.equals("initedEntity")){
             try {
 
                 Field field = ReflectionUtils.findField(bean.getClass(), "age");
                 ReflectionUtils.makeAccessible(field);
-                ReflectionUtils.setField(field, bean, 1);
+                ReflectionUtils.setField(field, bean, "before");
 
             }catch(Exception e){
 
             }
-            System.out.println(bean);
+            System.out.println("postProcessBeforeInitialization:"+bean);
         }
         return bean;
     }
 
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-        System.out.println("postProcessAfterInitialization:"+beanName);
-        if(beanName.equals("initedEntity")){
+        if(beanName.equals("springEntity") || beanName.equals("initedEntity")){
 
             try {
                 Field field = ReflectionUtils.findField(bean.getClass(), "age");
                 ReflectionUtils.makeAccessible(field);
-                ReflectionUtils.setField(field, bean, 1);
+                ReflectionUtils.setField(field, bean, "after");
             }catch(Exception e){
-                System.out.println(bean);
+                System.out.println("postProcessAfterInitialization:"+bean);
             }
             System.out.println(bean);
         }

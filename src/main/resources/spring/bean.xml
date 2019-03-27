@@ -12,7 +12,7 @@
 	<!--<aop:aspectj-autoproxy /> -->
 	<!--<mvc:annotation-driven /> -->
 
-	<context:component-scan base-package="com.easycode.*"/>
+	<context:annotation-config/>
 
 
 	<!--<bean id="jspViewResolver"
@@ -25,5 +25,6 @@
 		<property name="suffix" value=".jsp" />
 	</bean> -->
 
-	<!--<bean id="initedEntity" class="com.easycode.entity.InitedEntity" init-method="initMethod"></bean>-->
+	<bean class="com.easycode.entity.AppConfig"></bean>
+	<!--<bean id="initedEntity" class="com.easycode.entity.SpringEntity" init-method="initMethod"></bean>-->
 </beans>
